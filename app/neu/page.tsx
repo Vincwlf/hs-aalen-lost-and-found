@@ -41,29 +41,33 @@ export default function NewItemPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F3F5F7] text-[#344054]">
-      {/* Oberer Informationsbalken */}
-      <div className="bg-[#173653] text-white text-xs px-4 sm:px-6 py-2">
+      {/* 1. Oberer Campus-Balken (identisch zur Startseite) */}
+      <div className="bg-[#173653] text-white text-[11px] px-4 sm:px-6 py-2 border-b border-white/10">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <span className="font-semibold tracking-wide">HOCHSCHULE AALEN</span>
+          <div className="flex items-center gap-2">
+            <span className="font-bold tracking-wider uppercase">Hochschule Aalen</span>
+            <span className="text-white/40">•</span>
+            <span className="text-white/80">Technik und Wirtschaft</span>
+          </div>
           <span className="text-white/80 hidden sm:inline">
-            Standorte: Beethovenstraße • Burren • Waldcampus
+            Campus Beethovenstraße • Burren • Waldcampus
           </span>
         </div>
       </div>
 
-      {/* Header */}
-      <header className="bg-white border-b border-[#DCE3E9]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#173653] text-white flex flex-col items-center justify-center rounded-sm shrink-0">
-              <span className="text-[10px] font-medium leading-none">HS</span>
-              <span className="text-[14px] font-bold leading-none mt-0.5">AA</span>
+      {/* 2. Haupt-Navigation (identisch zur Startseite) */}
+      <header className="bg-white border-b border-[#DCE3E9] sticky top-0 z-30 shadow-[0_1px_2px_rgba(23,54,83,0.03)]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3.5 group">
+            <div className="w-10 h-10 bg-[#173653] group-hover:bg-[#122a40] transition-colors text-white flex flex-col items-center justify-center rounded shrink-0 shadow-2xs">
+              <span className="text-[9px] font-medium tracking-widest leading-none text-white/80">HS</span>
+              <span className="text-[14px] font-extrabold leading-none mt-0.5 tracking-tight">AA</span>
             </div>
-            <div className="pl-3 border-l border-[#DCE3E9]">
-              <span className="font-bold text-[15px] tracking-tight text-[#173653] block leading-tight">
+            <div className="pl-3.5 border-l border-[#DCE3E9]">
+              <span className="font-bold text-base tracking-tight text-[#173653] block leading-none">
                 Hochschule Aalen
               </span>
-              <span className="text-[11px] font-medium text-[#526477] uppercase tracking-wider block mt-0.5">
+              <span className="text-[11px] font-semibold text-[#526477] uppercase tracking-widest block mt-1">
                 Digitales Fundbüro
               </span>
             </div>
@@ -71,25 +75,25 @@ export default function NewItemPage() {
 
           <Link
             href="/"
-            className="text-xs font-semibold text-[#526477] hover:text-[#173653] transition-colors"
+            className="text-xs font-semibold text-[#526477] hover:text-[#173653] transition-colors inline-flex items-center gap-1.5 bg-[#F3F5F7] px-3.5 py-2 rounded-md border border-[#DCE3E9]"
           >
-            ← Zurück zur Übersicht
+            <span>← Zurück zur Übersicht</span>
           </Link>
         </div>
       </header>
 
-      {/* Formular-Container */}
-      <main className="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 py-8">
-        <div className="bg-white border border-[#DCE3E9] rounded-md p-6 sm:p-8 space-y-6">
-          <div className="border-b border-[#DCE3E9] pb-4">
+      {/* Formular-Bereich */}
+      <main className="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 py-10">
+        <div className="bg-white border border-[#DCE3E9] rounded-md p-6 sm:p-10 space-y-7 shadow-[0_1px_3px_rgba(23,54,83,0.04)]">
+          <div className="border-b border-[#DCE3E9] pb-5 space-y-1">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#526477]">
-              Neue Meldung
+              Neuen Fall erfassen
             </span>
-            <h1 className="text-xl font-bold text-[#173653] mt-0.5">
+            <h1 className="text-2xl font-bold text-[#173653]">
               Fund- oder Verlustfall melden
             </h1>
-            <p className="text-xs text-[#526477] mt-1">
-              Bitte fülle die Pflichtfelder (*) aus. Nach dem Speichern wird automatisch ein druckfertiger DIN-A4-Aushang mit QR-Code erstellt.
+            <p className="text-xs text-[#526477] leading-relaxed">
+              Trage die Details ein. Nach dem Speichern wird sofort ein offizieller DIN-A4-Aushang mit QR-Code und Abreißzetteln generiert.
             </p>
           </div>
 
@@ -102,7 +106,7 @@ export default function NewItemPage() {
                 name="title"
                 required
                 placeholder="z. B. Schwarzer Regenschirm, ThinkPad-Netzteil, Campus Card"
-                className="w-full bg-white text-[#344054] placeholder-[#526477]/70 border border-[#DCE3E9] rounded-md px-3.5 py-2 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
+                className="w-full bg-[#F3F5F7]/40 focus:bg-white text-[#344054] placeholder-[#526477]/70 border border-[#DCE3E9] rounded-md px-3.5 py-2.5 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653] transition-all"
               />
             </div>
 
@@ -112,10 +116,10 @@ export default function NewItemPage() {
               </label>
               <select
                 name="status"
-                className="w-full bg-white text-[#344054] border border-[#DCE3E9] rounded-md px-3.5 py-2 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
+                className="w-full bg-white text-[#344054] border border-[#DCE3E9] rounded-md px-3.5 py-2.5 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
               >
                 <option value="LOST">Verloren (Gegenstand wird gesucht)</option>
-                <option value="FOUND">Gefunden (Gegenstand wurde abgegeben / gesichert)</option>
+                <option value="FOUND">Gefunden (Gegenstand liegt vor)</option>
               </select>
             </div>
 
@@ -126,7 +130,7 @@ export default function NewItemPage() {
               <select
                 name="category"
                 required
-                className="w-full bg-white text-[#344054] border border-[#DCE3E9] rounded-md px-3.5 py-2 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
+                className="w-full bg-white text-[#344054] border border-[#DCE3E9] rounded-md px-3.5 py-2.5 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
               >
                 <option value="">Bitte wählen...</option>
                 {CATEGORIES.map((c) => (
@@ -144,7 +148,7 @@ export default function NewItemPage() {
               <select
                 name="location"
                 required
-                className="w-full bg-white text-[#344054] border border-[#DCE3E9] rounded-md px-3.5 py-2 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
+                className="w-full bg-white text-[#344054] border border-[#DCE3E9] rounded-md px-3.5 py-2.5 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
               >
                 <option value="">Gebäude wählen...</option>
                 {CAMPUS_LOCATIONS.map((group) => (
@@ -166,7 +170,7 @@ export default function NewItemPage() {
               <input
                 name="room"
                 placeholder="z. B. Hörsaal 0.21, Bibliothek EG Tisch 4"
-                className="w-full bg-white text-[#344054] placeholder-[#526477]/70 border border-[#DCE3E9] rounded-md px-3.5 py-2 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
+                className="w-full bg-[#F3F5F7]/40 focus:bg-white text-[#344054] placeholder-[#526477]/70 border border-[#DCE3E9] rounded-md px-3.5 py-2.5 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
               />
             </div>
 
@@ -178,7 +182,7 @@ export default function NewItemPage() {
                 name="incidentDate"
                 type="datetime-local"
                 defaultValue={new Date().toISOString().slice(0, 16)}
-                className="w-full bg-white text-[#344054] border border-[#DCE3E9] rounded-md px-3.5 py-2 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
+                className="w-full bg-white text-[#344054] border border-[#DCE3E9] rounded-md px-3.5 py-2.5 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
               />
             </div>
 
@@ -189,7 +193,7 @@ export default function NewItemPage() {
               <input
                 name="contact"
                 placeholder="z. B. vorname.nachname@studmail.htw-aalen.de"
-                className="w-full bg-white text-[#344054] placeholder-[#526477]/70 border border-[#DCE3E9] rounded-md px-3.5 py-2 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
+                className="w-full bg-[#F3F5F7]/40 focus:bg-white text-[#344054] placeholder-[#526477]/70 border border-[#DCE3E9] rounded-md px-3.5 py-2.5 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
               />
             </div>
 
@@ -200,7 +204,7 @@ export default function NewItemPage() {
               <input
                 name="secretFeature"
                 placeholder="z. B. Gravur, Matrikelnummer-Endung, Sperrbildschirm-Motiv"
-                className="w-full bg-white text-[#344054] placeholder-[#526477]/70 border border-[#DCE3E9] rounded-md px-3.5 py-2 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
+                className="w-full bg-[#F3F5F7]/40 focus:bg-white text-[#344054] placeholder-[#526477]/70 border border-[#DCE3E9] rounded-md px-3.5 py-2.5 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
               />
             </div>
 
@@ -212,27 +216,35 @@ export default function NewItemPage() {
                 name="description"
                 rows={3}
                 placeholder="Besondere Merkmale, Marke, Farbe oder Hinweis zum Abholort (z. B. Infothek)..."
-                className="w-full bg-white text-[#344054] placeholder-[#526477]/70 border border-[#DCE3E9] rounded-md px-3.5 py-2 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
+                className="w-full bg-[#F3F5F7]/40 focus:bg-white text-[#344054] placeholder-[#526477]/70 border border-[#DCE3E9] rounded-md px-3.5 py-2.5 text-sm focus:outline-none focus:border-[#173653] focus:ring-1 focus:ring-[#173653]"
               />
             </div>
 
-            <div className="sm:col-span-2 pt-3 flex items-center justify-end gap-3 border-t border-[#DCE3E9]">
+            <div className="sm:col-span-2 pt-4 flex items-center justify-end gap-3 border-t border-[#DCE3E9]">
               <Link
                 href="/"
-                className="px-4 py-2.5 rounded-md border border-[#DCE3E9] text-xs font-semibold text-[#526477] hover:bg-[#F3F5F7] transition-colors"
+                className="px-5 py-2.5 rounded-md border border-[#DCE3E9] text-xs font-semibold text-[#526477] hover:bg-[#F3F5F7] transition-colors"
               >
                 Abbrechen
               </Link>
               <button
                 type="submit"
-                className="bg-[#173653] hover:bg-[#122a40] text-white font-semibold px-6 py-2.5 rounded-md text-xs transition-colors"
+                className="bg-[#173653] hover:bg-[#122a40] text-white font-semibold px-6 py-2.5 rounded-md text-xs transition-colors shadow-2xs"
               >
-                Meldung speichern
+                Meldung speichern & Aushang erstellen
               </button>
             </div>
           </form>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-[#DCE3E9] bg-white py-6 mt-12 text-xs text-[#526477]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="font-semibold text-[#173653]">Hochschule Aalen – Digitales Fundbüro</p>
+          <p>Zentraler Campus-Service für Studierende und Mitarbeitende</p>
+        </div>
+      </footer>
     </div>
   );
 }
