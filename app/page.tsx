@@ -40,11 +40,11 @@ const CategoryIcons: Record<string, React.ReactNode> = {
   ),
 };
 
-export default async function Home(props: PageProps) {
-  const searchParams = await props.searchParams;
-  const query = (searchParams.q || "").trim();
-  const filterStatus = searchParams.status || "";
-  const filterCategory = searchParams.category || "";
+export default async function Home({ searchParams }: PageProps) {
+  const resolvedParams = await searchParams;
+  const query = (resolvedParams.q || "").trim();
+  const filterStatus = resolvedParams.status || "";
+  const filterCategory = resolvedParams.category || "";
 
   const [items, totalLost, totalFound] = await Promise.all([
     prisma.item.findMany({
@@ -115,9 +115,9 @@ export default async function Home(props: PageProps) {
 
       {/* 2. Haupt-Navigation */}
       <header className="bg-white border-b border-[#DCE3E9] sticky top-0 z-30 shadow-[0_1px_2px_rgba(23,54,83,0.03)]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3.5 group">
-            <div className="w-11 h-11 bg-[#173653] group-hover:bg-[#122a40] transition-colors text-white flex flex-col items-center justify-center rounded-xl shrink-0 shadow-xs">
+            <div className="w-10 h-10 bg-[#173653] group-hover:bg-[#122a40] transition-colors text-white flex flex-col items-center justify-center rounded shrink-0 shadow-2xs">
               <span className="text-[9px] font-medium tracking-widest leading-none text-white/80">HS</span>
               <span className="text-[14px] font-extrabold leading-none mt-0.5 tracking-tight">AA</span>
             </div>
@@ -134,9 +134,11 @@ export default async function Home(props: PageProps) {
           <div className="flex items-center gap-3">
             <Link
               href="/neu"
-              className="bg-[#173653] hover:bg-[#122a40] text-white text-xs font-semibold px-5 py-3 rounded-full shadow-xs transition-all inline-flex items-center gap-2"
+              className="bg-[#173653] hover:bg-[#122a40] text-white text-xs font-semibold px-4 py-2.5 rounded-md shadow-2xs transition-all inline-flex items-center gap-2"
             >
-              <span className="text-sm font-bold leading-none">+</span>
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4v16m8-8H4" />
+              </svg>
               <span>Meldung erfassen</span>
             </Link>
           </div>
@@ -145,13 +147,14 @@ export default async function Home(props: PageProps) {
 
       {/* 3. Hero- & Steuerungsbereich */}
       <section className="bg-white border-b border-[#DCE3E9]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-12 space-y-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10 space-y-7">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="space-y-2.5 max-w-2xl">
-              <div className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#173653] bg-[#F3F5F7] px-3 py-1 rounded-full border border-[#DCE3E9]">
+            <div className="space-y-2 max-w-2xl">
+              <div className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-[#526477]">
+                <span className="w-2 h-0.5 bg-[#173653]"></span>
                 <span>Zentraler Studierenden- & Gebäudeservice</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-black text-[#173653] tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-bold text-[#173653] tracking-tight">
                 Verloren & Gefunden auf dem Campus
               </h1>
               <p className="text-sm text-[#526477] leading-relaxed">
@@ -159,35 +162,35 @@ export default async function Home(props: PageProps) {
               </p>
             </div>
 
-            <div className="flex items-center gap-4 self-start md:self-auto bg-[#F3F5F7] border border-[#DCE3E9] rounded-2xl p-4 shrink-0 shadow-2xs">
-              <div className="px-3 py-0.5 border-r border-[#DCE3E9]">
-                <span className="block text-[10px] font-bold uppercase tracking-wider text-[#526477]">
+            <div className="flex items-center gap-3 self-start md:self-auto bg-[#F3F5F7] border border-[#DCE3E9] rounded-md p-2.5 shrink-0">
+              <div className="px-3 py-1 border-r border-[#DCE3E9]">
+                <span className="block text-[10px] font-semibold uppercase tracking-wider text-[#526477]">
                   Aktuell gesucht
                 </span>
-                <span className="text-xl font-bold text-[#173653] flex items-center gap-2 mt-0.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-red-600"></span>
+                <span className="text-lg font-bold text-[#173653] flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-red-600"></span>
                   {totalLost}
                 </span>
               </div>
-              <div className="px-3 py-0.5">
-                <span className="block text-[10px] font-bold uppercase tracking-wider text-[#526477]">
+              <div className="px-3 py-1">
+                <span className="block text-[10px] font-semibold uppercase tracking-wider text-[#526477]">
                   Bereit zur Abholung
                 </span>
-                <span className="text-xl font-bold text-[#173653] flex items-center gap-2 mt-0.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                <span className="text-lg font-bold text-[#173653] flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
                   {totalFound}
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 pt-2">
+          <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 pt-1">
             <form method="get" action="/" className="flex-1 max-w-2xl">
               {filterStatus && <input type="hidden" name="status" value={filterStatus} />}
               {filterCategory && <input type="hidden" name="category" value={filterCategory} />}
-              <div className="relative flex items-center bg-[#F3F5F7] focus-within:bg-white rounded-full border border-[#DCE3E9] focus-within:border-[#173653] focus-within:ring-2 focus-within:ring-[#173653]/15 transition-all p-1">
+              <div className="relative flex items-center bg-[#F3F5F7] focus-within:bg-white rounded-md border border-[#DCE3E9] focus-within:border-[#173653] focus-within:ring-2 focus-within:ring-[#173653]/15 transition-all">
                 <svg
-                  className="w-4 h-4 ml-4 text-[#526477] shrink-0"
+                  className="w-4 h-4 ml-3.5 text-[#526477] shrink-0"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -198,12 +201,12 @@ export default async function Home(props: PageProps) {
                   name="q"
                   defaultValue={query}
                   placeholder="Nach Gegenstand, Gebäude (z. B. BS1, Bibliothek) oder Raum suchen..."
-                  className="w-full bg-transparent text-[#344054] placeholder-[#526477] text-sm px-3.5 py-2.5 focus:outline-none"
+                  className="w-full bg-transparent text-[#344054] placeholder-[#526477] text-sm px-3 py-2.5 focus:outline-none"
                 />
                 {query && (
                   <Link
                     href={buildFilterUrl({ status: filterStatus, category: filterCategory })}
-                    className="text-xs text-[#526477] hover:text-[#344054] px-3 font-semibold"
+                    className="text-xs text-[#526477] hover:text-[#344054] px-2"
                     title="Suche löschen"
                   >
                     ✕
@@ -211,19 +214,19 @@ export default async function Home(props: PageProps) {
                 )}
                 <button
                   type="submit"
-                  className="bg-[#173653] hover:bg-[#122a40] text-white text-xs font-semibold px-6 py-2.5 rounded-full transition-colors shrink-0 shadow-xs"
+                  className="m-1 bg-[#173653] hover:bg-[#122a40] text-white text-xs font-semibold px-4 py-2 rounded transition-colors shrink-0"
                 >
                   Suchen
                 </button>
               </div>
             </form>
 
-            <div className="inline-flex bg-[#F3F5F7] p-1.5 rounded-full border border-[#DCE3E9] self-start lg:self-auto gap-1">
+            <div className="inline-flex bg-[#F3F5F7] p-1 rounded-md border border-[#DCE3E9] self-start lg:self-auto">
               <Link
                 href={buildFilterUrl({ q: query, category: filterCategory })}
-                className={`text-xs px-4 py-1.5 rounded-full transition-all font-medium ${
+                className={`text-xs px-3 py-1.5 rounded transition-all ${
                   !filterStatus
-                    ? "bg-[#173653] text-white font-semibold shadow-xs"
+                    ? "bg-white text-[#173653] font-semibold shadow-2xs"
                     : "text-[#526477] hover:text-[#344054]"
                 }`}
               >
@@ -235,9 +238,9 @@ export default async function Home(props: PageProps) {
                   status: filterStatus === "LOST" ? "" : "LOST",
                   category: filterCategory,
                 })}
-                className={`text-xs px-4 py-1.5 rounded-full transition-all inline-flex items-center gap-1.5 font-medium ${
+                className={`text-xs px-3 py-1.5 rounded transition-all inline-flex items-center gap-1.5 ${
                   filterStatus === "LOST"
-                    ? "bg-[#173653] text-white font-semibold shadow-xs"
+                    ? "bg-white text-[#173653] font-semibold shadow-2xs"
                     : "text-[#526477] hover:text-[#344054]"
                 }`}
               >
@@ -250,9 +253,9 @@ export default async function Home(props: PageProps) {
                   status: filterStatus === "FOUND" ? "" : "FOUND",
                   category: filterCategory,
                 })}
-                className={`text-xs px-4 py-1.5 rounded-full transition-all inline-flex items-center gap-1.5 font-medium ${
+                className={`text-xs px-3 py-1.5 rounded transition-all inline-flex items-center gap-1.5 ${
                   filterStatus === "FOUND"
-                    ? "bg-[#173653] text-white font-semibold shadow-xs"
+                    ? "bg-white text-[#173653] font-semibold shadow-2xs"
                     : "text-[#526477] hover:text-[#344054]"
                 }`}
               >
@@ -265,9 +268,9 @@ export default async function Home(props: PageProps) {
                   status: filterStatus === "RESOLVED" ? "" : "RESOLVED",
                   category: filterCategory,
                 })}
-                className={`text-xs px-4 py-1.5 rounded-full transition-all inline-flex items-center gap-1.5 font-medium ${
+                className={`text-xs px-3 py-1.5 rounded transition-all inline-flex items-center gap-1.5 ${
                   filterStatus === "RESOLVED"
-                    ? "bg-[#173653] text-white font-semibold shadow-xs"
+                    ? "bg-white text-[#173653] font-semibold shadow-2xs"
                     : "text-[#526477] hover:text-[#344054]"
                 }`}
               >
@@ -277,8 +280,8 @@ export default async function Home(props: PageProps) {
             </div>
           </div>
 
-          <div className="pt-3 border-t border-[#F3F5F7] flex flex-wrap items-center gap-2">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#526477] mr-2">
+          <div className="pt-2 border-t border-[#F3F5F7] flex flex-wrap items-center gap-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#526477] mr-1">
               Kategorien:
             </span>
             {CATEGORIES.map((cat) => {
@@ -291,9 +294,9 @@ export default async function Home(props: PageProps) {
                     status: filterStatus,
                     category: isActive ? "" : cat,
                   })}
-                  className={`text-xs px-4 py-2 rounded-full border transition-all inline-flex items-center gap-2 font-medium ${
+                  className={`text-xs px-3 py-1.5 rounded-md border transition-all inline-flex items-center gap-1.5 ${
                     isActive
-                      ? "bg-[#173653] text-white border-[#173653] shadow-xs"
+                      ? "bg-[#173653] text-white border-[#173653] font-medium shadow-2xs"
                       : "bg-white text-[#344054] border-[#DCE3E9] hover:border-[#526477] hover:bg-[#F3F5F7]/60"
                   }`}
                 >
@@ -308,9 +311,9 @@ export default async function Home(props: PageProps) {
             {hasActiveFilters && (
               <Link
                 href="/"
-                className="text-xs text-[#173653] hover:underline ml-auto font-semibold inline-flex items-center gap-1 px-2 py-1"
+                className="text-xs text-[#173653] hover:underline ml-auto font-semibold inline-flex items-center gap-1"
               >
-                <span>✕ Filter zurücksetzen</span>
+                <span>✕ Alle Filter zurücksetzen</span>
               </Link>
             )}
           </div>
@@ -318,7 +321,7 @@ export default async function Home(props: PageProps) {
       </section>
 
       {/* 4. Ergebnisbereich */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-10 space-y-6">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 space-y-5">
         <div className="flex items-center justify-between">
           <h2 className="text-xs font-bold uppercase tracking-wider text-[#526477]">
             {items.length} {items.length === 1 ? "Eintrag gelistet" : "Einträge gelistet"}
@@ -329,37 +332,37 @@ export default async function Home(props: PageProps) {
         </div>
 
         {items.length === 0 ? (
-          <div className="bg-white border border-[#DCE3E9] rounded-2xl p-14 text-center space-y-3 shadow-2xs">
-            <div className="w-12 h-12 rounded-full bg-[#F3F5F7] text-[#526477] flex items-center justify-center mx-auto">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="bg-white border border-[#DCE3E9] rounded-md p-12 text-center space-y-3 shadow-2xs">
+            <div className="w-10 h-10 rounded-full bg-[#F3F5F7] text-[#526477] flex items-center justify-center mx-auto">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
-            <p className="text-base font-bold text-[#173653]">
+            <p className="text-base font-semibold text-[#173653]">
               Keine passenden Meldungen gefunden
             </p>
             <p className="text-xs text-[#526477] max-w-md mx-auto leading-relaxed">
               Für deine aktuelle Filterauswahl liegen keine Einträge vor. Setze die Filter zurück oder erfasse direkt eine neue Meldung.
             </p>
-            <div className="pt-3 flex items-center justify-center gap-3">
+            <div className="pt-2 flex items-center justify-center gap-3">
               {hasActiveFilters && (
                 <Link
                   href="/"
-                  className="text-xs bg-[#F3F5F7] hover:bg-[#DCE3E9] text-[#344054] font-semibold px-5 py-2.5 rounded-full transition-colors"
+                  className="text-xs bg-[#F3F5F7] hover:bg-[#DCE3E9] text-[#344054] font-semibold px-4 py-2 rounded-md transition-colors"
                 >
                   Filter zurücksetzen
                 </Link>
               )}
               <Link
                 href="/neu"
-                className="text-xs bg-[#173653] hover:bg-[#122a40] text-white font-semibold px-5 py-2.5 rounded-full transition-colors"
+                className="text-xs bg-[#173653] hover:bg-[#122a40] text-white font-semibold px-4 py-2 rounded-md transition-colors"
               >
                 + Neue Meldung erfassen
               </Link>
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {items.map((item) => {
               const statusCfg = STATUS_CONFIG[item.status] || STATUS_CONFIG.LOST;
               const icon = CategoryIcons[item.category] || CategoryIcons["Sonstiges"];
@@ -373,15 +376,15 @@ export default async function Home(props: PageProps) {
               return (
                 <article
                   key={item.id}
-                  className="group bg-white border border-[#DCE3E9] rounded-2xl overflow-hidden flex flex-col justify-between shadow-[0_2px_8px_rgba(23,54,83,0.04)] hover:shadow-lg hover:border-[#526477]/50 transition-all"
+                  className="group bg-white border border-[#DCE3E9] rounded-md overflow-hidden flex flex-col justify-between shadow-[0_1px_3px_rgba(23,54,83,0.04)] hover:shadow-md hover:border-[#526477]/60 transition-all"
                 >
                   <div>
-                    <div className={`h-1.5 w-full ${topBarColor}`} />
+                    <div className={`h-1 w-full ${topBarColor}`} />
 
-                    <div className="p-6 space-y-4">
+                    <div className="p-5 space-y-3.5">
                       <div className="flex items-center justify-between">
                         <span
-                          className={`inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1 rounded-full border ${statusCfg.badgeBg} ${statusCfg.badgeText} ${statusCfg.badgeBorder}`}
+                          className={`inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-0.5 rounded border ${statusCfg.badgeBg} ${statusCfg.badgeText} ${statusCfg.badgeBorder}`}
                         >
                           <span className={`w-1.5 h-1.5 rounded-full ${statusCfg.dotColor}`} />
                           {statusCfg.label}
@@ -395,8 +398,8 @@ export default async function Home(props: PageProps) {
                         </time>
                       </div>
 
-                      <div className="flex items-start gap-3.5 pt-1">
-                        <div className="w-10 h-10 rounded-xl bg-[#F3F5F7] border border-[#DCE3E9] text-[#173653] flex items-center justify-center shrink-0">
+                      <div className="flex items-start gap-3 pt-0.5">
+                        <div className="w-9 h-9 rounded bg-[#F3F5F7] border border-[#DCE3E9] text-[#173653] flex items-center justify-center shrink-0 mt-0.5">
                           {icon}
                         </div>
                         <div className="min-w-0 flex-1">
@@ -413,9 +416,9 @@ export default async function Home(props: PageProps) {
                         {item.description || "Keine weiterführende Beschreibung angegeben."}
                       </p>
 
-                      <div className="bg-[#F3F5F7]/70 border border-[#DCE3E9]/80 rounded-xl px-3.5 py-2.5 flex items-center gap-2.5 text-xs text-[#344054]">
+                      <div className="bg-[#F3F5F7]/70 border border-[#DCE3E9]/80 rounded px-3 py-2 flex items-center gap-2 text-xs text-[#344054]">
                         <svg
-                          className="w-4 h-4 text-[#173653] shrink-0"
+                          className="w-3.5 h-3.5 text-[#173653] shrink-0"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -431,7 +434,7 @@ export default async function Home(props: PageProps) {
                     </div>
                   </div>
 
-                  <div className="px-6 py-3.5 border-t border-[#DCE3E9] bg-[#F3F5F7]/40 flex items-center justify-between">
+                  <div className="px-5 py-3 border-t border-[#DCE3E9] bg-[#F3F5F7]/50 flex items-center justify-between">
                     <Link
                       href={`/item/${item.id}`}
                       className="text-xs font-bold text-[#173653] hover:underline inline-flex items-center gap-1.5"
@@ -473,13 +476,13 @@ export default async function Home(props: PageProps) {
       </main>
 
       {/* Physischer Info-Hinweis */}
-      <section className="max-w-6xl w-full mx-auto px-4 sm:px-6 pt-6 pb-6">
-        <div className="bg-white border border-[#DCE3E9] rounded-2xl p-8 sm:p-10 shadow-[0_2px_8px_rgba(23,54,83,0.03)] grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-          <div className="md:col-span-2 space-y-2.5">
-            <div className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#173653] bg-[#F3F5F7] px-3 py-1 rounded-full border border-[#DCE3E9]">
+      <section className="max-w-6xl w-full mx-auto px-4 sm:px-6 pt-6 pb-4">
+        <div className="bg-white border border-[#DCE3E9] rounded-md p-6 sm:p-8 shadow-[0_1px_3px_rgba(23,54,83,0.03)] grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+          <div className="md:col-span-2 space-y-2">
+            <div className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#173653] bg-[#F3F5F7] px-2.5 py-1 rounded">
               <span>📍 Physische Abgabe & Zentrale</span>
             </div>
-            <h3 className="font-bold text-xl text-[#173653]">
+            <h3 className="font-bold text-lg text-[#173653]">
               Gegenstand im Fundbüro abgeben?
             </h3>
             <p className="text-xs sm:text-sm text-[#526477] leading-relaxed">
@@ -487,7 +490,7 @@ export default async function Home(props: PageProps) {
             </p>
           </div>
 
-          <div className="flex flex-col items-start md:items-end justify-center border-t md:border-t-0 md:border-l border-[#DCE3E9] pt-6 md:pt-0 md:pl-8 space-y-3">
+          <div className="flex flex-col items-start md:items-end justify-center border-t md:border-t-0 md:border-l border-[#DCE3E9] pt-4 md:pt-0 md:pl-6 space-y-2">
             <div className="text-xs text-[#344054] space-y-1 text-left md:text-right">
               <p className="font-semibold text-[#173653]">Öffnungszeiten:</p>
               <p className="text-[#526477]">Mo – Do: 09:00 – 15:00 Uhr</p>
@@ -505,18 +508,24 @@ export default async function Home(props: PageProps) {
       </section>
 
       {/* 5. Footer */}
-      <footer className="border-t border-[#DCE3E9] bg-white py-10 mt-12 text-xs text-[#526477]">
+      <footer className="border-t border-[#DCE3E9] bg-white py-8 mt-8 text-xs text-[#526477]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="space-y-1 text-center sm:text-left">
             <p className="font-bold text-[#173653]">Hochschule Aalen – Technik und Wirtschaft</p>
-            <p className="text-[#526477]">Digitales Campus-Fundbüro • Ein Service für Studierende und Beschäftigte</p>
+            <p className="text-[#526477]">Digitales Campus-Fundbüro • Bereit für die künftige Hochschulintegration</p>
           </div>
           <div className="flex items-center gap-4 text-[#526477]">
-            <span className="hover:text-[#173653] transition-colors cursor-pointer">Impressum</span>
+            <span className="hover:text-[#173653] transition-colors cursor-default">
+              Impressum
+            </span>
             <span>•</span>
-            <span className="hover:text-[#173653] transition-colors cursor-pointer">Datenschutz</span>
+            <span className="hover:text-[#173653] transition-colors cursor-default">
+              Datenschutz
+            </span>
             <span>•</span>
-            <span className="hover:text-[#173653] transition-colors cursor-pointer">Kontakt</span>
+            <span className="hover:text-[#173653] transition-colors cursor-default">
+              Kontakt
+            </span>
           </div>
         </div>
       </footer>
