@@ -1,20 +1,23 @@
-'client'
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 
 export default function Page() {
-  // Erzeugt das korrekte Format (YYYY-MM-DDTHH:mm) für das datetime-local Input-Feld
-  const now = new Date();
-  const formattedDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
-    .toISOString()
-    .slice(0, 16);
+  const [formattedDate, setFormattedDate] = useState('');
+
+  useEffect(() => {
+    const now = new Date();
+    const localIso = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, 16);
+    setFormattedDate(localIso);
+  }, []);
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
       <h1 className="text-2xl font-bold mb-6 text-blue-900">Neuen Gegenstand melden</h1>
       
       <form className="space-y-4">
-        {/* Hier stehen deine anderen Formularfelder... */}
-
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Datum und Uhrzeit
