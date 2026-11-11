@@ -4,18 +4,21 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = "file:./dev.db"
 }
 
 model Item {
-  id          String   @id @default(cuid())
-  title       String
-  description String?
-  category    String
-  location    String
-  status      String   @default("LOST") // "LOST", "FOUND" oder "RESOLVED"
-  contact     String?
-  imageUrl    String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(cuid())
+  title         String
+  description   String?
+  category      String
+  location      String
+  room          String?
+  incidentDate  DateTime @default(now())
+  secretFeature String?
+  status        String   @default("LOST") // "LOST", "FOUND", "RESOLVED"
+  contact       String?
+  imageUrl      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
