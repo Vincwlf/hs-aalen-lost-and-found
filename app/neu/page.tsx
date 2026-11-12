@@ -1,12 +1,16 @@
 import { PrismaClient } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { connection } from "next/server";
 import Link from "next/link";
 import { CATEGORIES, CAMPUS_LOCATIONS } from "@/lib/constants";
 
 const prisma = new PrismaClient();
 
-export default function NewItemPage() {
+export default async function NewItemPage() {
+  // Sorgt dafür, dass Next.js 16 die Uhrzeit dynamisch beim Seitenaufruf berechnet
+  await connection();
+
   // Aktuelles Datum & Uhrzeit auf 15-Minuten-Schritte (viertelstündlich) runden
   const now = new Date();
   const minutes = Math.floor(now.getMinutes() / 15) * 15;
